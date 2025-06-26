@@ -36,7 +36,7 @@ A modern platform for creating, sharing, and discovering recipes with a beautifu
 ### 🚀 One Command Setup (Recommended)
 **Clone the repository**
    ```bash
-   git clone [<repository-url>](https://github.com/kirian-dev/recipes-app.git)
+   git clone https://github.com/kirian-dev/recipes-app.git
    cd recipes-app
    ```
 **For complete application setup with migrations, seeds and tests:**
