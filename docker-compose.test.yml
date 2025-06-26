@@ -23,7 +23,7 @@ services:
   backend_test:
     build:
       context: ./backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: recipes_backend_test
     environment:
       DATABASE_URL: postgresql://test:test@postgres_test:5432/recipes_test
