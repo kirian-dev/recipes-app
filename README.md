@@ -239,8 +239,6 @@ npm run db:reset
 ### Authentication
 - `POST /api/auth/sign-up` - user registration
 - `POST /api/auth/login` - login
-- `POST /api/auth/logout` - logout
-- `GET /api/auth/me` - get current user
 
 ### Recipes
 - `GET /api/recipes` - get all recipes with pagination
@@ -251,11 +249,8 @@ npm run db:reset
 - `POST /api/recipes/:id/like` - toggle like (requires auth)
 
 ### Analytics
-- `GET /api/analytics/popular-paths` - popular API paths
-- `GET /api/analytics/events-by-method` - events by HTTP method
-- `GET /api/analytics/events-by-time-range` - events by time range
-- `GET /api/analytics/unique-users` - unique users count
-- `GET /api/analytics/top-user-agents` - top User-Agent headers
+- `GET /api/analytics/` - API analytics
+- `GET /api/analytics/methods` - popular API methods
 
 ## 🎨 UI/UX Features
 

@@ -102,9 +102,6 @@ src/
 ### Authentication
 - `POST /api/auth/sign-up` - Registration
 - `POST /api/auth/login` - Login
-- `POST /api/auth/logout` - Logout
-- `POST /api/auth/refresh` - Token refresh
-- `GET /api/auth/me` - Get current user
 
 ## Usage
 
