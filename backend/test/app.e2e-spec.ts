@@ -4,10 +4,7 @@ import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 import { PrismaService } from '../src/prisma/prisma.service';
 import { Express } from 'express';
-import {
-  Recipe,
-  RecipesResponse,
-} from '../src/recipes/interfaces/recipes.interfaces';
+import { Recipe, RecipesResponse } from '../src/recipes/interfaces/recipes.interfaces';
 import { AuthResponseDto } from 'src/auth/dto/auth-response.dto';
 
 describe('AppController (e2e)', () => {
@@ -23,6 +20,18 @@ describe('AppController (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+
+    // Set global prefix for all routes (same as in main.ts)
+    app.setGlobalPrefix('api');
+
+    // CORS setup (same as in main.ts)
+    app.enableCors({
+      origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+    });
+
     app.useGlobalPipes(
       new ValidationPipe({
         whitelist: true,
@@ -143,8 +152,7 @@ describe('AppController (e2e)', () => {
           .set('Authorization', `Bearer ${authToken}`)
           .send({
             title: 'Test Recipe Title',
-            description:
-              'A delicious test recipe for testing purposes with more than 10 characters',
+            description: 'A delicious test recipe for testing purposes with more than 10 characters',
             ingredients: ['ingredient1', 'ingredient2', 'ingredient3'],
             cookingTime: 30,
           })
@@ -206,16 +214,14 @@ describe('AppController (e2e)', () => {
           .expect((res) => {
             const response = res.body as RecipesResponse;
             expect(response.recipes).toBeInstanceOf(Array);
-            const testRecipe = response.recipes.find(
-              (recipe: Recipe) => recipe.title === 'Test Recipe Title',
-            );
+            const testRecipe = response.recipes.find((recipe: Recipe) => recipe.title === 'Test Recipe Title');
             expect(testRecipe).toBeDefined();
           });
       });
 
       it('should filter recipes by cooking time', () => {
         return request(app.getHttpServer() as Express)
-          .get('/recipes?maxCookingTime=30')
+          .get('/api/recipes?maxCookingTime=30')
           .expect(200)
           .expect((res) => {
             const response = res.body as RecipesResponse;
