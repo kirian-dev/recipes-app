@@ -134,6 +134,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     echo ""
     print_status "Running e2e tests..."
     ./scripts/run-tests.sh
+    
+    echo ""
+    print_success "✅ Tests completed successfully!"
 else
     echo ""
     print_status "Skipping tests. You can run them later with: ./scripts/run-tests.sh"

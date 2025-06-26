@@ -40,7 +40,7 @@ docker compose -f docker-compose.test.yml down -v
 
 # Build and start test services
 print_status "Building and starting test services..."
-docker compose -f docker-compose.test.yml up --build
+docker compose -f docker-compose.test.yml up --build --abort-on-container-exit
 
 # Check test results
 if [ $? -eq 0 ]; then
