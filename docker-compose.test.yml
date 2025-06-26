@@ -1,0 +1,50 @@
+services:
+  # PostgreSQL Database for Testing
+  postgres_test:
+    image: postgres:15-alpine
+    container_name: recipes_postgres_test
+    environment:
+      POSTGRES_DB: recipes_test
+      POSTGRES_USER: test
+      POSTGRES_PASSWORD: test
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_test_data:/var/lib/postgresql/data
+    networks:
+      - recipes_test_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test -d recipes_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend for E2E Tests
+  backend_test:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    container_name: recipes_backend_test
+    environment:
+      DATABASE_URL: postgresql://test:test@postgres_test:5432/recipes_test
+      NODE_ENV: test
+      PORT: 3002
+      JWT_SECRET: test-secret
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      postgres_test:
+        condition: service_healthy
+    networks:
+      - recipes_test_network
+    command: sh -c "sleep 5 && npm run db:generate && npm run db:push && npm run test:e2e"
+
+volumes:
+  postgres_test_data:
+
+networks:
+  recipes_test_network:
+    driver: bridge 

@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  salt         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  recipes      Recipe[]
+  likedRecipes UserLikedRecipe[]
+  analyticsEvents AnalyticsEvent[]
+
+  @@map("users")
+}
+
+model Recipe {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  ingredients String[] 
+  cookingTime Int      
+  likesCount  Int      @default(0) // Atomic counter for likes
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  likedBy     UserLikedRecipe[]
+
+  @@map("recipes")
+  @@index([createdAt]) 
+  @@index([cookingTime])
+  @@index([authorId])
+}
+
+model UserLikedRecipe {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  // Relations
+  recipeId  String
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([recipeId, userId])
+  @@map("user_liked_recipes")
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(uuid())
+  timestamp  DateTime @default(now())
+  method     String   // HTTP method (GET, POST, etc.)
+  path       String   // URL path
+  statusCode Int      // HTTP status code
+  duration   Int      // Response time in milliseconds
+  ip         String?  // Client IP address
+  userId     String?  // Optional user ID if authenticated
+  userAgent  String   // User-Agent header
+
+  // Relations
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@map("analytics_events")
+  @@index([timestamp]) 
+  @@index([userId])
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+} 

@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-600 text-white hover:bg-primary-700;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Masonry CSS */
+.my-masonry-grid {
+  display: flex;
+  margin-left: -24px; /* gutter size offset */
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 24px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Responsive masonry */
+@media (max-width: 500px) {
+  .my-masonry-grid {
+    margin-left: -16px;
+  }
+  .my-masonry-grid_column {
+    padding-left: 16px;
+  }
+}
+
+@media (max-width: 700px) {
+  .my-masonry-grid {
+    margin-left: -20px;
+  }
+  .my-masonry-grid_column {
+    padding-left: 20px;
+  }
+} 
