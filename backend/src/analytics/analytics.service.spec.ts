@@ -154,12 +154,8 @@ describe('AnalyticsService', () => {
         { userId: 'user-2', _count: { userId: 30 } },
       ];
 
-      mockPrismaService.analyticsEvent.count.mockResolvedValue(
-        mockTotalRequests,
-      );
-      mockPrismaService.analyticsEvent.aggregate.mockResolvedValue(
-        mockAverageResponseTime,
-      );
+      mockPrismaService.analyticsEvent.count.mockResolvedValue(mockTotalRequests);
+      mockPrismaService.analyticsEvent.aggregate.mockResolvedValue(mockAverageResponseTime);
       mockPrismaService.analyticsEvent.groupBy
         .mockResolvedValueOnce(mockTopEndpoints)
         .mockResolvedValueOnce(mockUniqueUsers);

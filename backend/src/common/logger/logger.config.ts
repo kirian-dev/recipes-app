@@ -82,10 +82,7 @@ export const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: logFormat,
   defaultMeta: { service: 'recipes-api' },
-  transports: [
-    ...fileTransports,
-    ...(process.env.NODE_ENV !== 'production' ? [consoleTransport] : []),
-  ],
+  transports: [...fileTransports, ...(process.env.NODE_ENV !== 'production' ? [consoleTransport] : [])],
   exceptionHandlers: [
     new DailyRotateFile({
       filename: 'logs/exceptions-%DATE%.log',

@@ -109,8 +109,7 @@ export class AccountLockedException extends HttpException {
         message: 'Account locked',
         error: 'Forbidden',
         details: {
-          reason:
-            'Account has been locked due to multiple failed login attempts',
+          reason: 'Account has been locked due to multiple failed login attempts',
         },
       },
       HttpStatus.FORBIDDEN,

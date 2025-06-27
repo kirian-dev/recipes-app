@@ -79,9 +79,7 @@ export class AnalyticsMiddleware implements NestMiddleware {
     // Check various headers for real IP address
     const xForwardedFor = req.headers['x-forwarded-for'];
     if (xForwardedFor) {
-      const ips = Array.isArray(xForwardedFor)
-        ? xForwardedFor[0]
-        : xForwardedFor;
+      const ips = Array.isArray(xForwardedFor) ? xForwardedFor[0] : xForwardedFor;
       return ips.split(',')[0].trim();
     }
 

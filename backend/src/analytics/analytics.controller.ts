@@ -3,12 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { Request, Response } from 'express';
 import { AnalyticsService } from './analytics.service';
 import { AnalyticsLoggerService } from './services/analytics-logger.service';
-import {
-  AnalyticsResponse,
-  MethodStatsResponse,
-  StatusStatsResponse,
-  TimeRangeResponse,
-} from '../common/interfaces';
+import { AnalyticsResponse, MethodStatsResponse, StatusStatsResponse, TimeRangeResponse } from '../common/interfaces';
 
 @ApiTags('analytics')
 @Controller('analytics')
@@ -45,10 +40,7 @@ export class AnalyticsController {
       },
     },
   })
-  async getAnalytics(
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Promise<AnalyticsResponse> {
+  async getAnalytics(@Req() request: Request, @Res() response: Response): Promise<AnalyticsResponse> {
     const startTime = Date.now();
     const { method, path, ip } = request;
 
@@ -56,28 +48,14 @@ export class AnalyticsController {
       const result = await this.analyticsService.getAnalytics();
       const duration = Date.now() - startTime;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        response.statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, response.statusCode, duration, undefined, ip);
 
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
       const statusCode = 500;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, statusCode, duration, undefined, ip);
 
       throw error;
     }
@@ -89,10 +67,7 @@ export class AnalyticsController {
     status: 200,
     description: 'Requests by HTTP method',
   })
-  async getRequestsByMethod(
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Promise<MethodStatsResponse[]> {
+  async getRequestsByMethod(@Req() request: Request, @Res() response: Response): Promise<MethodStatsResponse[]> {
     const startTime = Date.now();
     const { method, path, ip } = request;
 
@@ -100,28 +75,14 @@ export class AnalyticsController {
       const result = await this.analyticsService.getRequestsByMethod();
       const duration = Date.now() - startTime;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        response.statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, response.statusCode, duration, undefined, ip);
 
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
       const statusCode = 500;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, statusCode, duration, undefined, ip);
 
       throw error;
     }
@@ -133,10 +94,7 @@ export class AnalyticsController {
     status: 200,
     description: 'Requests by HTTP status code',
   })
-  async getRequestsByStatus(
-    @Req() request: Request,
-    @Res() response: Response,
-  ): Promise<StatusStatsResponse[]> {
+  async getRequestsByStatus(@Req() request: Request, @Res() response: Response): Promise<StatusStatsResponse[]> {
     const startTime = Date.now();
     const { method, path, ip } = request;
 
@@ -144,28 +102,14 @@ export class AnalyticsController {
       const result = await this.analyticsService.getRequestsByStatus();
       const duration = Date.now() - startTime;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        response.statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, response.statusCode, duration, undefined, ip);
 
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
       const statusCode = 500;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, statusCode, duration, undefined, ip);
 
       throw error;
     }
@@ -199,34 +143,17 @@ export class AnalyticsController {
     try {
       const start = new Date(startDate);
       const end = new Date(endDate);
-      const result = await this.analyticsService.getRequestsByTimeRange(
-        start,
-        end,
-      );
+      const result = await this.analyticsService.getRequestsByTimeRange(start, end);
       const duration = Date.now() - startTime;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        response.statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, response.statusCode, duration, undefined, ip);
 
       return result;
     } catch (error) {
       const duration = Date.now() - startTime;
       const statusCode = 500;
 
-      this.analyticsLogger.logEndpointAccess(
-        method,
-        path,
-        statusCode,
-        duration,
-        undefined,
-        ip,
-      );
+      this.analyticsLogger.logEndpointAccess(method, path, statusCode, duration, undefined, ip);
 
       throw error;
     }

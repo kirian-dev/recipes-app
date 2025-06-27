@@ -62,9 +62,7 @@ async function bootstrap() {
 
   // CORS setup
   app.enableCors({
-    origin: process.env.ALLOWED_ORIGINS?.split(',') || [
-      'http://localhost:3000',
-    ],
+    origin: process.env.ALLOWED_ORIGINS?.split(',') || ['http://localhost:3000'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -108,13 +106,10 @@ async function bootstrap() {
     timestamp: new Date().toISOString(),
   });
 
-  logger.info(
-    `Swagger documentation is available at: http://localhost:${port}/api/docs`,
-    {
-      swaggerUrl: `http://localhost:${port}/api/docs`,
-      timestamp: new Date().toISOString(),
-    },
-  );
+  logger.info(`Swagger documentation is available at: http://localhost:${port}/api/docs`, {
+    swaggerUrl: `http://localhost:${port}/api/docs`,
+    timestamp: new Date().toISOString(),
+  });
 }
 
 bootstrap().catch((error: Error) => {

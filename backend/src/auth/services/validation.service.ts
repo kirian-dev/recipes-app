@@ -26,10 +26,7 @@ export class ValidationService {
    */
   validateUserId(userId: string): void {
     if (!userId) {
-      throw new ValidationException(
-        'userId',
-        AUTH_CONSTANTS.MESSAGES.USER_ID.REQUIRED,
-      );
+      throw new ValidationException('userId', AUTH_CONSTANTS.MESSAGES.USER_ID.REQUIRED);
     }
   }
 
@@ -46,10 +43,7 @@ export class ValidationService {
    */
   private validateUsernameNotEmpty(username: string): void {
     if (!username || username.trim().length === 0) {
-      throw new ValidationException(
-        'username',
-        AUTH_CONSTANTS.MESSAGES.USERNAME.EMPTY,
-      );
+      throw new ValidationException('username', AUTH_CONSTANTS.MESSAGES.USERNAME.EMPTY);
     }
   }
 
@@ -58,17 +52,11 @@ export class ValidationService {
    */
   private validateUsernameLength(username: string): void {
     if (username.length < AUTH_CONSTANTS.USERNAME.MIN_LENGTH) {
-      throw new ValidationException(
-        'username',
-        AUTH_CONSTANTS.MESSAGES.USERNAME.TOO_SHORT,
-      );
+      throw new ValidationException('username', AUTH_CONSTANTS.MESSAGES.USERNAME.TOO_SHORT);
     }
 
     if (username.length > AUTH_CONSTANTS.USERNAME.MAX_LENGTH) {
-      throw new ValidationException(
-        'username',
-        AUTH_CONSTANTS.MESSAGES.USERNAME.TOO_LONG,
-      );
+      throw new ValidationException('username', AUTH_CONSTANTS.MESSAGES.USERNAME.TOO_LONG);
     }
   }
 
@@ -77,10 +65,7 @@ export class ValidationService {
    */
   private validateUsernamePattern(username: string): void {
     if (!AUTH_CONSTANTS.USERNAME.PATTERN.test(username)) {
-      throw new ValidationException(
-        'username',
-        AUTH_CONSTANTS.MESSAGES.USERNAME.INVALID_CHARS,
-      );
+      throw new ValidationException('username', AUTH_CONSTANTS.MESSAGES.USERNAME.INVALID_CHARS);
     }
   }
 
@@ -97,10 +82,7 @@ export class ValidationService {
    */
   private validatePasswordNotEmpty(password: string): void {
     if (!password || password.trim().length === 0) {
-      throw new ValidationException(
-        'password',
-        AUTH_CONSTANTS.MESSAGES.PASSWORD.EMPTY,
-      );
+      throw new ValidationException('password', AUTH_CONSTANTS.MESSAGES.PASSWORD.EMPTY);
     }
   }
 
@@ -109,17 +91,11 @@ export class ValidationService {
    */
   private validatePasswordLength(password: string): void {
     if (password.length < AUTH_CONSTANTS.PASSWORD.MIN_LENGTH) {
-      throw new ValidationException(
-        'password',
-        AUTH_CONSTANTS.MESSAGES.PASSWORD.TOO_SHORT,
-      );
+      throw new ValidationException('password', AUTH_CONSTANTS.MESSAGES.PASSWORD.TOO_SHORT);
     }
 
     if (password.length > AUTH_CONSTANTS.PASSWORD.MAX_LENGTH) {
-      throw new ValidationException(
-        'password',
-        AUTH_CONSTANTS.MESSAGES.PASSWORD.TOO_LONG,
-      );
+      throw new ValidationException('password', AUTH_CONSTANTS.MESSAGES.PASSWORD.TOO_LONG);
     }
   }
 }

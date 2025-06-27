@@ -10,11 +10,7 @@ export class ValidationService {
    * Validates recipe ID format
    */
   validateRecipeId(recipeId: string): void {
-    if (
-      !recipeId ||
-      typeof recipeId !== 'string' ||
-      recipeId.trim().length === 0
-    ) {
+    if (!recipeId || typeof recipeId !== 'string' || recipeId.trim().length === 0) {
       this.recipesLogger.logValidationError(
         'recipeId',
         recipeId,
@@ -29,11 +25,7 @@ export class ValidationService {
    */
   validateUserId(userId: string): void {
     if (!userId || typeof userId !== 'string' || userId.trim().length === 0) {
-      this.recipesLogger.logValidationError(
-        'userId',
-        userId,
-        RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_USER_ID,
-      );
+      this.recipesLogger.logValidationError('userId', userId, RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_USER_ID);
       throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_USER_ID);
     }
   }
@@ -43,11 +35,7 @@ export class ValidationService {
    */
   validateTitle(title: string): void {
     if (!title || typeof title !== 'string') {
-      this.recipesLogger.logValidationError(
-        'title',
-        title,
-        RECIPES_CONSTANTS.MESSAGES.VALIDATION.TITLE_REQUIRED,
-      );
+      this.recipesLogger.logValidationError('title', title, RECIPES_CONSTANTS.MESSAGES.VALIDATION.TITLE_REQUIRED);
       throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.TITLE_REQUIRED);
     }
 
@@ -77,17 +65,13 @@ export class ValidationService {
         description,
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.DESCRIPTION_REQUIRED,
       );
-      throw new Error(
-        RECIPES_CONSTANTS.MESSAGES.VALIDATION.DESCRIPTION_REQUIRED,
-      );
+      throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.DESCRIPTION_REQUIRED);
     }
 
     const trimmedDescription = description.trim();
     if (
-      trimmedDescription.length <
-        RECIPES_CONSTANTS.VALIDATION.DESCRIPTION.MIN_LENGTH ||
-      trimmedDescription.length >
-        RECIPES_CONSTANTS.VALIDATION.DESCRIPTION.MAX_LENGTH
+      trimmedDescription.length < RECIPES_CONSTANTS.VALIDATION.DESCRIPTION.MIN_LENGTH ||
+      trimmedDescription.length > RECIPES_CONSTANTS.VALIDATION.DESCRIPTION.MAX_LENGTH
     ) {
       this.recipesLogger.logValidationError(
         'description',
@@ -110,9 +94,7 @@ export class ValidationService {
         ingredients,
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.INGREDIENTS_REQUIRED,
       );
-      throw new Error(
-        RECIPES_CONSTANTS.MESSAGES.VALIDATION.INGREDIENTS_REQUIRED,
-      );
+      throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.INGREDIENTS_REQUIRED);
     }
 
     if (
@@ -131,19 +113,13 @@ export class ValidationService {
 
     // Validate each ingredient
     ingredients.forEach((ingredient, index) => {
-      if (
-        !ingredient ||
-        typeof ingredient !== 'string' ||
-        ingredient.trim().length === 0
-      ) {
+      if (!ingredient || typeof ingredient !== 'string' || ingredient.trim().length === 0) {
         this.recipesLogger.logValidationError(
           `ingredients[${index}]`,
           ingredient,
           'Each ingredient must be a non-empty string',
         );
-        throw new Error(
-          `Ingredient at index ${index} must be a non-empty string`,
-        );
+        throw new Error(`Ingredient at index ${index} must be a non-empty string`);
       }
     });
   }
@@ -158,9 +134,7 @@ export class ValidationService {
         cookingTime,
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_COOKING_TIME,
       );
-      throw new Error(
-        RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_COOKING_TIME,
-      );
+      throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.INVALID_COOKING_TIME);
     }
 
     if (
@@ -184,11 +158,7 @@ export class ValidationService {
   validatePaginationParams(page?: number, limit?: number): void {
     if (page !== undefined) {
       if (typeof page !== 'number' || isNaN(page) || page < 1) {
-        this.recipesLogger.logValidationError(
-          'page',
-          page,
-          'Page must be a positive integer',
-        );
+        this.recipesLogger.logValidationError('page', page, 'Page must be a positive integer');
         throw new Error('Page must be a positive integer');
       }
     }
@@ -205,9 +175,7 @@ export class ValidationService {
           limit,
           `Limit must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.PAGINATION.MAX_LIMIT}`,
         );
-        throw new Error(
-          `Limit must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.PAGINATION.MAX_LIMIT}`,
-        );
+        throw new Error(`Limit must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.PAGINATION.MAX_LIMIT}`);
       }
     }
   }
@@ -215,20 +183,9 @@ export class ValidationService {
   /**
    * Validates search parameters
    */
-  validateSearchParams(
-    search?: string,
-    maxCookingTime?: number,
-    minIngredients?: number,
-  ): void {
-    if (
-      search !== undefined &&
-      (typeof search !== 'string' || search.trim().length === 0)
-    ) {
-      this.recipesLogger.logValidationError(
-        'search',
-        search,
-        'Search term must be a non-empty string',
-      );
+  validateSearchParams(search?: string, maxCookingTime?: number, minIngredients?: number): void {
+    if (search !== undefined && (typeof search !== 'string' || search.trim().length === 0)) {
+      this.recipesLogger.logValidationError('search', search, 'Search term must be a non-empty string');
       throw new Error('Search term must be a non-empty string');
     }
 
@@ -248,9 +205,7 @@ export class ValidationService {
           minIngredients,
           `Min ingredients must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.INGREDIENTS.MAX_COUNT}`,
         );
-        throw new Error(
-          `Min ingredients must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.INGREDIENTS.MAX_COUNT}`,
-        );
+        throw new Error(`Min ingredients must be between 1 and ${RECIPES_CONSTANTS.VALIDATION.INGREDIENTS.MAX_COUNT}`);
       }
     }
   }

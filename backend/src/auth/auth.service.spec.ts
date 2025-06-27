@@ -106,13 +106,8 @@ describe('AuthService', () => {
 
       const result = await service.signUp(username, password);
 
-      expect(mockValidationService.validateSignUpInput).toHaveBeenCalledWith(
-        username,
-        password,
-      );
-      expect(mockPasswordService.validatePasswordStrength).toHaveBeenCalledWith(
-        password,
-      );
+      expect(mockValidationService.validateSignUpInput).toHaveBeenCalledWith(username, password);
+      expect(mockPasswordService.validatePasswordStrength).toHaveBeenCalledWith(password);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { username },
       });
@@ -145,9 +140,7 @@ describe('AuthService', () => {
         updatedAt: new Date(),
       });
 
-      await expect(service.signUp(username, password)).rejects.toThrow(
-        UserAlreadyExistsException,
-      );
+      await expect(service.signUp(username, password)).rejects.toThrow(UserAlreadyExistsException);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { username },
       });
@@ -161,9 +154,7 @@ describe('AuthService', () => {
         throw new ValidationException('username', 'Username is required');
       });
 
-      await expect(service.signUp(username, password)).rejects.toThrow(
-        ValidationException,
-      );
+      await expect(service.signUp(username, password)).rejects.toThrow(ValidationException);
     });
 
     it('should throw PasswordTooWeakException when password is too weak', async () => {
@@ -175,9 +166,7 @@ describe('AuthService', () => {
         throw new PasswordTooWeakException();
       });
 
-      await expect(service.signUp(username, password)).rejects.toThrow(
-        PasswordTooWeakException,
-      );
+      await expect(service.signUp(username, password)).rejects.toThrow(PasswordTooWeakException);
     });
 
     it('should handle database errors gracefully', async () => {
@@ -191,13 +180,9 @@ describe('AuthService', () => {
         hash: 'hashedpassword',
         salt: 'testsalt',
       });
-      mockPrismaService.user.create.mockRejectedValue(
-        new Error('Database connection failed'),
-      );
+      mockPrismaService.user.create.mockRejectedValue(new Error('Database connection failed'));
 
-      await expect(service.signUp(username, password)).rejects.toThrow(
-        ValidationException,
-      );
+      await expect(service.signUp(username, password)).rejects.toThrow(ValidationException);
     });
   });
 
@@ -222,18 +207,11 @@ describe('AuthService', () => {
 
       const result = await service.login(username, password);
 
-      expect(mockValidationService.validateLoginInput).toHaveBeenCalledWith(
-        username,
-        password,
-      );
+      expect(mockValidationService.validateLoginInput).toHaveBeenCalledWith(username, password);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { username },
       });
-      expect(mockPasswordService.verifyPassword).toHaveBeenCalledWith(
-        password,
-        mockUser.passwordHash,
-        mockUser.salt,
-      );
+      expect(mockPasswordService.verifyPassword).toHaveBeenCalledWith(password, mockUser.passwordHash, mockUser.salt);
       expect(mockJwtService.sign).toHaveBeenCalledWith({
         sub: 'user-id',
         username: 'testuser',
@@ -252,9 +230,7 @@ describe('AuthService', () => {
       mockValidationService.validateLoginInput.mockReturnValue(undefined);
       mockPrismaService.user.findUnique.mockResolvedValue(null);
 
-      await expect(service.login(username, password)).rejects.toThrow(
-        InvalidCredentialsException,
-      );
+      await expect(service.login(username, password)).rejects.toThrow(InvalidCredentialsException);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { username },
       });
@@ -277,9 +253,7 @@ describe('AuthService', () => {
       mockPrismaService.user.findUnique.mockResolvedValue(mockUser);
       mockPasswordService.verifyPassword.mockReturnValue(false);
 
-      await expect(service.login(username, password)).rejects.toThrow(
-        InvalidCredentialsException,
-      );
+      await expect(service.login(username, password)).rejects.toThrow(InvalidCredentialsException);
     });
 
     it('should throw ValidationException when validation fails', async () => {
@@ -290,9 +264,7 @@ describe('AuthService', () => {
         throw new ValidationException('username', 'Username is required');
       });
 
-      await expect(service.login(username, password)).rejects.toThrow(
-        ValidationException,
-      );
+      await expect(service.login(username, password)).rejects.toThrow(ValidationException);
     });
 
     it('should handle JWT generation errors gracefully', async () => {
@@ -315,9 +287,7 @@ describe('AuthService', () => {
         throw new Error('JWT signing failed');
       });
 
-      await expect(service.login(username, password)).rejects.toThrow(
-        ValidationException,
-      );
+      await expect(service.login(username, password)).rejects.toThrow(ValidationException);
     });
   });
 
@@ -355,9 +325,7 @@ describe('AuthService', () => {
         throw new ValidationException('userId', 'User ID is required');
       });
 
-      await expect(service.validateUser(userId)).rejects.toThrow(
-        ValidationException,
-      );
+      await expect(service.validateUser(userId)).rejects.toThrow(ValidationException);
     });
 
     it('should throw UserNotFoundException when user does not exist', async () => {
@@ -366,9 +334,7 @@ describe('AuthService', () => {
       mockValidationService.validateUserId.mockReturnValue(undefined);
       mockPrismaService.user.findUnique.mockResolvedValue(null);
 
-      await expect(service.validateUser(userId)).rejects.toThrow(
-        UserNotFoundException,
-      );
+      await expect(service.validateUser(userId)).rejects.toThrow(UserNotFoundException);
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { id: userId },
       });

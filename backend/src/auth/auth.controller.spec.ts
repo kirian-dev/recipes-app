@@ -54,10 +54,7 @@ describe('AuthController', () => {
 
       const result = await controller.signUp(signUpDto);
 
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
       expect(result).toEqual(expectedUser);
     });
 
@@ -70,13 +67,8 @@ describe('AuthController', () => {
       const error = new UserAlreadyExistsException('existinguser');
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        UserAlreadyExistsException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(UserAlreadyExistsException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw ValidationException when username is empty', async () => {
@@ -85,19 +77,11 @@ describe('AuthController', () => {
         password: 'password123',
       };
 
-      const error = new ValidationException(
-        'username',
-        'Username cannot be empty',
-      );
+      const error = new ValidationException('username', 'Username cannot be empty');
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw ValidationException when username is too short', async () => {
@@ -106,19 +90,11 @@ describe('AuthController', () => {
         password: 'password123',
       };
 
-      const error = new ValidationException(
-        'username',
-        'Username must be at least 3 characters long',
-      );
+      const error = new ValidationException('username', 'Username must be at least 3 characters long');
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw ValidationException when password is too short', async () => {
@@ -127,19 +103,11 @@ describe('AuthController', () => {
         password: '123',
       };
 
-      const error = new ValidationException(
-        'password',
-        'Password must be at least 6 characters long',
-      );
+      const error = new ValidationException('password', 'Password must be at least 6 characters long');
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw ValidationException when username contains invalid characters', async () => {
@@ -154,13 +122,8 @@ describe('AuthController', () => {
       );
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw PasswordTooWeakException when password is too weak', async () => {
@@ -172,13 +135,8 @@ describe('AuthController', () => {
       const error = new PasswordTooWeakException();
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        PasswordTooWeakException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(PasswordTooWeakException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
 
     it('should throw RateLimitExceededException when too many signup attempts', async () => {
@@ -190,13 +148,8 @@ describe('AuthController', () => {
       const error = new RateLimitExceededException();
       mockAuthService.signUp.mockRejectedValue(error);
 
-      await expect(controller.signUp(signUpDto)).rejects.toThrow(
-        RateLimitExceededException,
-      );
-      expect(mockAuthService.signUp).toHaveBeenCalledWith(
-        signUpDto.username,
-        signUpDto.password,
-      );
+      await expect(controller.signUp(signUpDto)).rejects.toThrow(RateLimitExceededException);
+      expect(mockAuthService.signUp).toHaveBeenCalledWith(signUpDto.username, signUpDto.password);
     });
   });
 
@@ -215,10 +168,7 @@ describe('AuthController', () => {
 
       const result = await controller.login(loginDto);
 
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
       expect(result).toEqual(expectedResult);
     });
 
@@ -231,13 +181,8 @@ describe('AuthController', () => {
       const error = new InvalidCredentialsException();
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        InvalidCredentialsException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(InvalidCredentialsException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
 
     it('should throw InvalidCredentialsException when password is incorrect', async () => {
@@ -249,13 +194,8 @@ describe('AuthController', () => {
       const error = new InvalidCredentialsException();
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        InvalidCredentialsException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(InvalidCredentialsException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
 
     it('should throw ValidationException when username is empty', async () => {
@@ -264,19 +204,11 @@ describe('AuthController', () => {
         password: 'password123',
       };
 
-      const error = new ValidationException(
-        'username',
-        'Username cannot be empty',
-      );
+      const error = new ValidationException('username', 'Username cannot be empty');
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
 
     it('should throw ValidationException when password is empty', async () => {
@@ -285,19 +217,11 @@ describe('AuthController', () => {
         password: '',
       };
 
-      const error = new ValidationException(
-        'password',
-        'Password cannot be empty',
-      );
+      const error = new ValidationException('password', 'Password cannot be empty');
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        ValidationException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(ValidationException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
 
     it('should throw AccountLockedException when account is locked', async () => {
@@ -309,13 +233,8 @@ describe('AuthController', () => {
       const error = new AccountLockedException();
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        AccountLockedException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(AccountLockedException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
 
     it('should throw RateLimitExceededException when too many login attempts', async () => {
@@ -327,13 +246,8 @@ describe('AuthController', () => {
       const error = new RateLimitExceededException();
       mockAuthService.login.mockRejectedValue(error);
 
-      await expect(controller.login(loginDto)).rejects.toThrow(
-        RateLimitExceededException,
-      );
-      expect(mockAuthService.login).toHaveBeenCalledWith(
-        loginDto.username,
-        loginDto.password,
-      );
+      await expect(controller.login(loginDto)).rejects.toThrow(RateLimitExceededException);
+      expect(mockAuthService.login).toHaveBeenCalledWith(loginDto.username, loginDto.password);
     });
   });
 });

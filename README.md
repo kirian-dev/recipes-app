@@ -267,6 +267,12 @@ npm run db:reset
 - **Infinite Scroll** - infinite scrolling for recipes
 - **Masonry Layout** - beautiful recipe grid layout
 
+## 🖼️ Example Interface
+
+Here’s what the main page of the application looks like:
+
+![Main Page](./docs/screenshot-main.png)
+
 ## 🔒 Security
 
 - JWT authentication with automatic token refresh

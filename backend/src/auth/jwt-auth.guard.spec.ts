@@ -4,11 +4,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { AuthService } from './auth.service';
 import { AuthUser, JwtPayload } from './interfaces/auth.interfaces';
-import {
-  InvalidTokenException,
-  TokenExpiredException,
-  UserNotFoundException,
-} from './exceptions/auth.exceptions';
+import { InvalidTokenException, TokenExpiredException, UserNotFoundException } from './exceptions/auth.exceptions';
 
 interface RequestWithUser {
   headers: Record<string, string>;
@@ -88,9 +84,7 @@ describe('JwtAuthGuard', () => {
         }),
       } as unknown as ExecutionContext;
 
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        InvalidTokenException,
-      );
+      await expect(guard.canActivate(mockContext)).rejects.toThrow(InvalidTokenException);
     });
 
     it('should throw InvalidTokenException when authorization header is malformed', async () => {
@@ -106,9 +100,7 @@ describe('JwtAuthGuard', () => {
         }),
       } as unknown as ExecutionContext;
 
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        InvalidTokenException,
-      );
+      await expect(guard.canActivate(mockContext)).rejects.toThrow(InvalidTokenException);
     });
 
     it('should throw TokenExpiredException when JWT token is expired', async () => {
@@ -131,9 +123,7 @@ describe('JwtAuthGuard', () => {
         throw expiredError;
       });
 
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        TokenExpiredException,
-      );
+      await expect(guard.canActivate(mockContext)).rejects.toThrow(TokenExpiredException);
     });
 
     it('should throw InvalidTokenException when JWT verification fails', async () => {
@@ -154,9 +144,7 @@ describe('JwtAuthGuard', () => {
         throw new Error('Invalid token');
       });
 
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        InvalidTokenException,
-      );
+      await expect(guard.canActivate(mockContext)).rejects.toThrow(InvalidTokenException);
     });
 
     it('should throw UserNotFoundException when user validation fails', async () => {
@@ -176,13 +164,9 @@ describe('JwtAuthGuard', () => {
       } as unknown as ExecutionContext;
 
       mockJwtService.verify.mockReturnValue(payload);
-      mockAuthService.validateUser.mockRejectedValue(
-        new UserNotFoundException('user-id'),
-      );
+      mockAuthService.validateUser.mockRejectedValue(new UserNotFoundException('user-id'));
 
-      await expect(guard.canActivate(mockContext)).rejects.toThrow(
-        UserNotFoundException,
-      );
+      await expect(guard.canActivate(mockContext)).rejects.toThrow(UserNotFoundException);
     });
 
     it('should handle authorization header with different cases', async () => {

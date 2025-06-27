@@ -12,14 +12,7 @@ import {
   HttpStatus,
   Put,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBearerAuth,
-  ApiBody,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
@@ -51,10 +44,7 @@ export class RecipesController {
     status: 401,
     description: RECIPES_CONSTANTS.MESSAGES.AUTHORIZATION.UNAUTHORIZED,
   })
-  async create(
-    @Body() createRecipeDto: CreateRecipeDto,
-    @Request() req: AuthenticatedRequest,
-  ) {
+  async create(@Body() createRecipeDto: CreateRecipeDto, @Request() req: AuthenticatedRequest) {
     const authorId = req.user?.sub || req.user?.id;
     if (!authorId) {
       throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND);
@@ -216,10 +206,7 @@ export class RecipesController {
     status: 404,
     description: 'Recipe not found',
   })
-  async toggleLike(
-    @Param('id') id: string,
-    @Request() req: AuthenticatedRequest,
-  ) {
+  async toggleLike(@Param('id') id: string, @Request() req: AuthenticatedRequest) {
     const userId = req.user?.sub || req.user?.id;
     if (!userId) {
       throw new Error(RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND);

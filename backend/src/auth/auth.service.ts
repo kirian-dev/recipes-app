@@ -46,8 +46,7 @@ export class AuthService {
 
     // Creates a user
     try {
-      const { hash: passwordHash, salt } =
-        this.passwordService.hashPassword(password);
+      const { hash: passwordHash, salt } = this.passwordService.hashPassword(password);
 
       const user = await this.prisma.user.create({
         data: { username, passwordHash, salt },
@@ -88,10 +87,7 @@ export class AuthService {
         error: error instanceof Error ? error.message : 'Unknown error',
       });
 
-      throw new ValidationException(
-        'database',
-        AUTH_CONSTANTS.MESSAGES.DATABASE.CREATE_FAILED,
-      );
+      throw new ValidationException('database', AUTH_CONSTANTS.MESSAGES.DATABASE.CREATE_FAILED);
     }
   }
 
@@ -114,11 +110,7 @@ export class AuthService {
     }
 
     // Checks password
-    const isValidPassword = this.passwordService.verifyPassword(
-      password,
-      user.passwordHash,
-      user.salt,
-    );
+    const isValidPassword = this.passwordService.verifyPassword(password, user.passwordHash, user.salt);
 
     if (!isValidPassword) {
       this.authLogger.logLoginAttempt({
@@ -157,10 +149,7 @@ export class AuthService {
         error: error instanceof Error ? error.message : 'JWT generation failed',
       });
 
-      throw new ValidationException(
-        'jwt',
-        AUTH_CONSTANTS.MESSAGES.JWT.GENERATE_FAILED,
-      );
+      throw new ValidationException('jwt', AUTH_CONSTANTS.MESSAGES.JWT.GENERATE_FAILED);
     }
   }
 

@@ -81,10 +81,7 @@ describe('AnalyticsController', () => {
 
       mockAnalyticsService.getRequestsByMethod.mockResolvedValue(mockStats);
 
-      const result = await controller.getRequestsByMethod(
-        mockRequest,
-        mockResponse,
-      );
+      const result = await controller.getRequestsByMethod(mockRequest, mockResponse);
 
       expect(mockAnalyticsService.getRequestsByMethod).toHaveBeenCalled();
       expect(result).toEqual(mockStats);
@@ -101,10 +98,7 @@ describe('AnalyticsController', () => {
 
       mockAnalyticsService.getRequestsByStatus.mockResolvedValue(mockStats);
 
-      const result = await controller.getRequestsByStatus(
-        mockRequest,
-        mockResponse,
-      );
+      const result = await controller.getRequestsByStatus(mockRequest, mockResponse);
 
       expect(mockAnalyticsService.getRequestsByStatus).toHaveBeenCalled();
       expect(result).toEqual(mockStats);
@@ -131,17 +125,9 @@ describe('AnalyticsController', () => {
 
       mockAnalyticsService.getRequestsByTimeRange.mockResolvedValue(mockEvents);
 
-      const result = await controller.getRequestsByTimeRange(
-        startDate,
-        endDate,
-        mockRequest,
-        mockResponse,
-      );
+      const result = await controller.getRequestsByTimeRange(startDate, endDate, mockRequest, mockResponse);
 
-      expect(mockAnalyticsService.getRequestsByTimeRange).toHaveBeenCalledWith(
-        new Date(startDate),
-        new Date(endDate),
-      );
+      expect(mockAnalyticsService.getRequestsByTimeRange).toHaveBeenCalledWith(new Date(startDate), new Date(endDate));
       expect(result).toEqual(mockEvents);
     });
   });

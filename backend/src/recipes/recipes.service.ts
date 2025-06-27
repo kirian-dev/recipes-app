@@ -1,20 +1,11 @@
-import {
-  Injectable,
-  NotFoundException,
-  ForbiddenException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
 import { UpdateRecipeDto } from './dto/update-recipe.dto';
 import { RECIPES_CONSTANTS } from './constants/recipes.constants';
 import { RecipesLoggerService } from './services/recipes-logger.service';
 import { ValidationService } from './services/validation.service';
-import {
-  FindAllOptions,
-  Recipe,
-  RecipeWhereCondition,
-} from './interfaces/recipes.interfaces';
+import { FindAllOptions, Recipe, RecipeWhereCondition } from './interfaces/recipes.interfaces';
 
 @Injectable()
 export class RecipesService {
@@ -71,9 +62,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.CREATE_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.CREATE_FAILED);
     }
   }
 
@@ -109,9 +98,7 @@ export class RecipesService {
           where,
           select: { id: true, ingredients: true },
         });
-        const filteredIds = allMatchingRecipes
-          .filter((r) => r.ingredients.length >= minIngredients)
-          .map((r) => r.id);
+        const filteredIds = allMatchingRecipes.filter((r) => r.ingredients.length >= minIngredients).map((r) => r.id);
         total = filteredIds.length;
         const pageIds = filteredIds.slice(skip, skip + limit);
         recipes = await this.prisma.recipe.findMany({
@@ -171,9 +158,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_FAILED);
     }
   }
 
@@ -191,11 +176,7 @@ export class RecipesService {
       });
 
       if (!recipe) {
-        this.recipesLogger.logRecipeFetch(
-          { recipeId: id },
-          false,
-          'Recipe not found',
-        );
+        this.recipesLogger.logRecipeFetch({ recipeId: id }, false, 'Recipe not found');
         throw new NotFoundException(`Recipe with ID ${id} not found`);
       }
 
@@ -222,9 +203,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_ONE_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_ONE_FAILED);
     }
   }
 
@@ -236,23 +215,11 @@ export class RecipesService {
       const recipe = await this.findOne(id);
 
       if (recipe.authorId !== authorId) {
-        this.recipesLogger.logAuthorizationCheck(
-          'update',
-          authorId,
-          recipe.authorId,
-          false,
-        );
-        throw new ForbiddenException(
-          RECIPES_CONSTANTS.MESSAGES.AUTHORIZATION.UPDATE_FORBIDDEN,
-        );
+        this.recipesLogger.logAuthorizationCheck('update', authorId, recipe.authorId, false);
+        throw new ForbiddenException(RECIPES_CONSTANTS.MESSAGES.AUTHORIZATION.UPDATE_FORBIDDEN);
       }
 
-      this.recipesLogger.logAuthorizationCheck(
-        'update',
-        authorId,
-        recipe.authorId,
-        true,
-      );
+      this.recipesLogger.logAuthorizationCheck('update', authorId, recipe.authorId, true);
 
       // Validate update data if provided
       if (updateRecipeDto.title) {
@@ -289,10 +256,7 @@ export class RecipesService {
 
       return updatedRecipe;
     } catch (error) {
-      if (
-        error instanceof NotFoundException ||
-        error instanceof ForbiddenException
-      ) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) {
         throw error;
       }
 
@@ -308,9 +272,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.UPDATE_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.UPDATE_FAILED);
     }
   }
 
@@ -322,23 +284,11 @@ export class RecipesService {
       const recipe = await this.findOne(id);
 
       if (recipe.authorId !== authorId) {
-        this.recipesLogger.logAuthorizationCheck(
-          'delete',
-          authorId,
-          recipe.authorId,
-          false,
-        );
-        throw new ForbiddenException(
-          RECIPES_CONSTANTS.MESSAGES.AUTHORIZATION.DELETE_FORBIDDEN,
-        );
+        this.recipesLogger.logAuthorizationCheck('delete', authorId, recipe.authorId, false);
+        throw new ForbiddenException(RECIPES_CONSTANTS.MESSAGES.AUTHORIZATION.DELETE_FORBIDDEN);
       }
 
-      this.recipesLogger.logAuthorizationCheck(
-        'delete',
-        authorId,
-        recipe.authorId,
-        true,
-      );
+      this.recipesLogger.logAuthorizationCheck('delete', authorId, recipe.authorId, true);
 
       await this.prisma.recipe.delete({
         where: { id },
@@ -355,10 +305,7 @@ export class RecipesService {
 
       return { message: RECIPES_CONSTANTS.MESSAGES.SUCCESS.DELETED };
     } catch (error) {
-      if (
-        error instanceof NotFoundException ||
-        error instanceof ForbiddenException
-      ) {
+      if (error instanceof NotFoundException || error instanceof ForbiddenException) {
         throw error;
       }
 
@@ -374,9 +321,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.DELETE_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.DELETE_FAILED);
     }
   }
 
@@ -391,11 +336,7 @@ export class RecipesService {
       });
 
       if (!recipe) {
-        this.recipesLogger.logLikeToggle(
-          { recipeId, userId },
-          false,
-          'Recipe not found',
-        );
+        this.recipesLogger.logLikeToggle({ recipeId, userId }, false, 'Recipe not found');
         throw new NotFoundException(`Recipe with ID ${recipeId} not found`);
       }
 
@@ -430,10 +371,7 @@ export class RecipesService {
           }),
         ]);
 
-        this.recipesLogger.logLikeToggle(
-          { recipeId, userId, liked: false },
-          true,
-        );
+        this.recipesLogger.logLikeToggle({ recipeId, userId, liked: false }, true);
 
         // Return the updated recipe
         return await this.findOne(recipeId);
@@ -456,10 +394,7 @@ export class RecipesService {
           }),
         ]);
 
-        this.recipesLogger.logLikeToggle(
-          { recipeId, userId, liked: true },
-          true,
-        );
+        this.recipesLogger.logLikeToggle({ recipeId, userId, liked: true }, true);
 
         // Return the updated recipe
         return await this.findOne(recipeId);
@@ -478,9 +413,7 @@ export class RecipesService {
       if (error instanceof Error) {
         throw new BadRequestException(error.message);
       }
-      throw new BadRequestException(
-        RECIPES_CONSTANTS.MESSAGES.DATABASE.LIKE_TOGGLE_FAILED,
-      );
+      throw new BadRequestException(RECIPES_CONSTANTS.MESSAGES.DATABASE.LIKE_TOGGLE_FAILED);
     }
   }
 }

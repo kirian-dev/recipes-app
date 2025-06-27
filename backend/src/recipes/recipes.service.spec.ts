@@ -1,11 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { RecipesService } from './recipes.service';
 import { PrismaService } from '../prisma/prisma.service';
-import {
-  NotFoundException,
-  ForbiddenException,
-  BadRequestException,
-} from '@nestjs/common';
+import { NotFoundException, ForbiddenException, BadRequestException } from '@nestjs/common';
 import { RECIPES_CONSTANTS } from './constants/recipes.constants';
 import { RecipesLoggerService } from './services/recipes-logger.service';
 import { ValidationService } from './services/validation.service';
@@ -121,13 +117,9 @@ describe('RecipesService', () => {
       };
       const authorId = 'user-id';
 
-      mockPrismaService.recipe.create.mockRejectedValue(
-        new Error('Database error'),
-      );
+      mockPrismaService.recipe.create.mockRejectedValue(new Error('Database error'));
 
-      await expect(service.create(createRecipeDto, authorId)).rejects.toThrow(
-        BadRequestException,
-      );
+      await expect(service.create(createRecipeDto, authorId)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -145,9 +137,7 @@ describe('RecipesService', () => {
         { id: 'recipe-1', ingredients: ['a', 'b', 'c'] },
         { id: 'recipe-2', ingredients: ['a', 'b', 'c', 'd'] },
       ];
-      mockPrismaService.recipe.findMany.mockResolvedValueOnce(
-        allMatchingRecipes,
-      );
+      mockPrismaService.recipe.findMany.mockResolvedValueOnce(allMatchingRecipes);
 
       const mockRecipes = [
         {
@@ -183,10 +173,7 @@ describe('RecipesService', () => {
       const mockRecipes = [];
       const mockTotal = 0;
 
-      mockPrismaService.$transaction.mockResolvedValue([
-        mockRecipes,
-        mockTotal,
-      ]);
+      mockPrismaService.$transaction.mockResolvedValue([mockRecipes, mockTotal]);
 
       const result = await service.findAll(options);
 
@@ -229,9 +216,7 @@ describe('RecipesService', () => {
 
       mockPrismaService.recipe.findUnique.mockResolvedValue(null);
 
-      await expect(service.findOne(recipeId)).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(service.findOne(recipeId)).rejects.toThrow(NotFoundException);
     });
 
     it('should throw BadRequestException for invalid ID', async () => {
@@ -242,9 +227,7 @@ describe('RecipesService', () => {
       });
 
       await expect(service.findOne('')).rejects.toThrow(BadRequestException);
-      await expect(
-        service.findOne(undefined as unknown as string),
-      ).rejects.toThrow(BadRequestException);
+      await expect(service.findOne(undefined as unknown as string)).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -311,9 +294,7 @@ describe('RecipesService', () => {
 
       mockPrismaService.recipe.findUnique.mockResolvedValue(existingRecipe);
 
-      await expect(
-        service.update(recipeId, updateDto, authorId),
-      ).rejects.toThrow(ForbiddenException);
+      await expect(service.update(recipeId, updateDto, authorId)).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -364,9 +345,7 @@ describe('RecipesService', () => {
 
       mockPrismaService.recipe.findUnique.mockResolvedValue(existingRecipe);
 
-      await expect(service.remove(recipeId, authorId)).rejects.toThrow(
-        ForbiddenException,
-      );
+      await expect(service.remove(recipeId, authorId)).rejects.toThrow(ForbiddenException);
     });
   });
 
@@ -400,9 +379,7 @@ describe('RecipesService', () => {
         updatedAt: new Date(),
       };
 
-      mockPrismaService.recipe.findUnique
-        .mockResolvedValueOnce(initialRecipe)
-        .mockResolvedValueOnce(updatedRecipe);
+      mockPrismaService.recipe.findUnique.mockResolvedValueOnce(initialRecipe).mockResolvedValueOnce(updatedRecipe);
 
       mockPrismaService.userLikedRecipe.findUnique.mockResolvedValue(null);
 
@@ -443,9 +420,7 @@ describe('RecipesService', () => {
         updatedAt: new Date(),
       };
 
-      mockPrismaService.recipe.findUnique
-        .mockResolvedValueOnce(initialRecipe)
-        .mockResolvedValueOnce(updatedRecipe);
+      mockPrismaService.recipe.findUnique.mockResolvedValueOnce(initialRecipe).mockResolvedValueOnce(updatedRecipe);
 
       mockPrismaService.userLikedRecipe.findUnique.mockResolvedValue({
         userId,
@@ -472,12 +447,8 @@ describe('RecipesService', () => {
         }
       });
 
-      await expect(service.toggleLike('', 'user-id')).rejects.toThrow(
-        BadRequestException,
-      );
-      await expect(service.toggleLike('recipe-id', '')).rejects.toThrow(
-        BadRequestException,
-      );
+      await expect(service.toggleLike('', 'user-id')).rejects.toThrow(BadRequestException);
+      await expect(service.toggleLike('recipe-id', '')).rejects.toThrow(BadRequestException);
     });
   });
 });

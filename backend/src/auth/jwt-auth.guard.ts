@@ -4,11 +4,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import { AuthService } from './auth.service';
 import { AuthUser, JwtPayload } from './interfaces/auth.interfaces';
-import {
-  InvalidTokenException,
-  TokenExpiredException,
-  UserNotFoundException,
-} from './exceptions/auth.exceptions';
+import { InvalidTokenException, TokenExpiredException, UserNotFoundException } from './exceptions/auth.exceptions';
 
 interface JwtError {
   name: string;
@@ -32,17 +28,14 @@ export class JwtAuthGuard extends AuthGuard(JWT_STRATEGY) {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<RequestWithUser>();
-    const authHeader =
-      request.headers.authorization || request.headers.Authorization;
+    const authHeader = request.headers.authorization || request.headers.Authorization;
 
     if (!authHeader) {
       throw new InvalidTokenException();
     }
 
     // Ensure authHeader is a string
-    const authHeaderString = Array.isArray(authHeader)
-      ? authHeader[0]
-      : authHeader;
+    const authHeaderString = Array.isArray(authHeader) ? authHeader[0] : authHeader;
 
     if (!authHeaderString) {
       throw new InvalidTokenException();

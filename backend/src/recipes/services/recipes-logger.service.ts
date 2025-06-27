@@ -7,11 +7,7 @@ import { RecipeOperationLogData } from '../interfaces/recipes.interfaces';
 export class RecipesLoggerService {
   constructor(private readonly logger: LoggerService) {}
 
-  logRecipeCreation(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
+  logRecipeCreation(data: RecipeOperationLogData, success: boolean, error?: string): void {
     const message = success
       ? RECIPES_CONSTANTS.MESSAGES.SUCCESS.CREATED
       : RECIPES_CONSTANTS.MESSAGES.DATABASE.CREATE_FAILED;
@@ -25,11 +21,7 @@ export class RecipesLoggerService {
     });
   }
 
-  logRecipeUpdate(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
+  logRecipeUpdate(data: RecipeOperationLogData, success: boolean, error?: string): void {
     const message = success
       ? RECIPES_CONSTANTS.MESSAGES.SUCCESS.UPDATED
       : RECIPES_CONSTANTS.MESSAGES.DATABASE.UPDATE_FAILED;
@@ -43,11 +35,7 @@ export class RecipesLoggerService {
     });
   }
 
-  logRecipeDeletion(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
+  logRecipeDeletion(data: RecipeOperationLogData, success: boolean, error?: string): void {
     const message = success
       ? RECIPES_CONSTANTS.MESSAGES.SUCCESS.DELETED
       : RECIPES_CONSTANTS.MESSAGES.DATABASE.DELETE_FAILED;
@@ -61,14 +49,8 @@ export class RecipesLoggerService {
     });
   }
 
-  logRecipesFetch(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
-    const message = success
-      ? 'Recipes fetched successfully'
-      : RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_FAILED;
+  logRecipesFetch(data: RecipeOperationLogData, success: boolean, error?: string): void {
+    const message = success ? 'Recipes fetched successfully' : RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_FAILED;
 
     this.logger.info(message, {
       service: 'RecipesService',
@@ -79,14 +61,8 @@ export class RecipesLoggerService {
     });
   }
 
-  logRecipeFetch(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
-    const message = success
-      ? 'Recipe fetched successfully'
-      : RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_ONE_FAILED;
+  logRecipeFetch(data: RecipeOperationLogData, success: boolean, error?: string): void {
+    const message = success ? 'Recipe fetched successfully' : RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_ONE_FAILED;
 
     this.logger.info(message, {
       service: 'RecipesService',
@@ -97,11 +73,7 @@ export class RecipesLoggerService {
     });
   }
 
-  logLikeToggle(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
+  logLikeToggle(data: RecipeOperationLogData, success: boolean, error?: string): void {
     const message = success
       ? data.liked
         ? RECIPES_CONSTANTS.MESSAGES.SUCCESS.LIKED
@@ -117,11 +89,7 @@ export class RecipesLoggerService {
     });
   }
 
-  logLikedRecipesFetch(
-    data: RecipeOperationLogData,
-    success: boolean,
-    error?: string,
-  ): void {
+  logLikedRecipesFetch(data: RecipeOperationLogData, success: boolean, error?: string): void {
     const message = success
       ? 'Liked recipes fetched successfully'
       : RECIPES_CONSTANTS.MESSAGES.DATABASE.FETCH_LIKED_FAILED;
@@ -135,15 +103,8 @@ export class RecipesLoggerService {
     });
   }
 
-  logAuthorizationCheck(
-    operation: string,
-    userId: string,
-    authorId: string,
-    success: boolean,
-  ): void {
-    const message = success
-      ? 'Authorization check passed'
-      : 'Authorization check failed';
+  logAuthorizationCheck(operation: string, userId: string, authorId: string, success: boolean): void {
+    const message = success ? 'Authorization check passed' : 'Authorization check failed';
 
     this.logger.info(message, {
       service: 'RecipesService',

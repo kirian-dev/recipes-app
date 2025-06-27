@@ -53,11 +53,7 @@ export class AuthLoggerService {
   /**
    * Logs password validation
    */
-  logPasswordValidation(
-    username: string,
-    isWeak: boolean,
-    reason?: string,
-  ): void {
+  logPasswordValidation(username: string, isWeak: boolean, reason?: string): void {
     const context: AuthLogContext = {
       username,
       action: 'password_validation',
@@ -142,12 +138,7 @@ export class AuthLoggerService {
   /**
    * Logs security events
    */
-  logSecurityEvent(
-    event: string,
-    username?: string,
-    ip?: string,
-    metadata?: Record<string, unknown>,
-  ): void {
+  logSecurityEvent(event: string, username?: string, ip?: string, metadata?: Record<string, unknown>): void {
     const context: AuthLogContext = {
       username,
       ip,

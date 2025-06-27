@@ -17,9 +17,7 @@ export class AnalyticsService {
     private analyticsLogger: AnalyticsLoggerService,
   ) {}
 
-  async createEvent(
-    createAnalyticsEventDto: CreateAnalyticsEventDto,
-  ): Promise<AnalyticsEvent> {
+  async createEvent(createAnalyticsEventDto: CreateAnalyticsEventDto): Promise<AnalyticsEvent> {
     try {
       const result = await this.prisma.analyticsEvent.create({
         data: createAnalyticsEventDto,
@@ -98,24 +96,23 @@ export class AnalyticsService {
 
   async getAnalytics(): Promise<AnalyticsResponse> {
     try {
-      const [totalRequests, averageResponseTime, topEndpoints, uniqueUsers] =
-        await Promise.all([
-          this.prisma.analyticsEvent.count(),
-          this.prisma.analyticsEvent.aggregate({
-            _avg: { duration: true },
-          }),
-          this.prisma.analyticsEvent.groupBy({
-            by: ['path'],
-            _count: { path: true },
-            orderBy: { _count: { path: 'desc' } },
-            take: 10,
-          }),
-          this.prisma.analyticsEvent.groupBy({
-            by: ['userId'],
-            where: { userId: { not: null } },
-            _count: { userId: true },
-          }),
-        ]);
+      const [totalRequests, averageResponseTime, topEndpoints, uniqueUsers] = await Promise.all([
+        this.prisma.analyticsEvent.count(),
+        this.prisma.analyticsEvent.aggregate({
+          _avg: { duration: true },
+        }),
+        this.prisma.analyticsEvent.groupBy({
+          by: ['path'],
+          _count: { path: true },
+          orderBy: { _count: { path: 'desc' } },
+          take: 10,
+        }),
+        this.prisma.analyticsEvent.groupBy({
+          by: ['userId'],
+          where: { userId: { not: null } },
+          _count: { userId: true },
+        }),
+      ]);
 
       const result: AnalyticsResponse = {
         totalRequests,
@@ -182,14 +179,9 @@ export class AnalyticsService {
         _count: { statusCode: item._count.statusCode },
       }));
 
-      this.analyticsLogger.logAnalyticsRetrieval(
-        'status_codes',
-        true,
-        undefined,
-        {
-          statusCount: statusStats.length,
-        },
-      );
+      this.analyticsLogger.logAnalyticsRetrieval('status_codes', true, undefined, {
+        statusCount: statusStats.length,
+      });
 
       return statusStats;
     } catch (error) {
@@ -202,10 +194,7 @@ export class AnalyticsService {
     }
   }
 
-  async getRequestsByTimeRange(
-    startDate: Date,
-    endDate: Date,
-  ): Promise<TimeRangeResponse[]> {
+  async getRequestsByTimeRange(startDate: Date, endDate: Date): Promise<TimeRangeResponse[]> {
     try {
       const result = await this.prisma.analyticsEvent.findMany({
         where: {
@@ -229,16 +218,11 @@ export class AnalyticsService {
         userAgent: item.userAgent,
       }));
 
-      this.analyticsLogger.logAnalyticsRetrieval(
-        'time_range',
-        true,
-        undefined,
-        {
-          startDate: startDate.toISOString(),
-          endDate: endDate.toISOString(),
-          recordCount: timeRangeStats.length,
-        },
-      );
+      this.analyticsLogger.logAnalyticsRetrieval('time_range', true, undefined, {
+        startDate: startDate.toISOString(),
+        endDate: endDate.toISOString(),
+        recordCount: timeRangeStats.length,
+      });
 
       return timeRangeStats;
     } catch (error) {

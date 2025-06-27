@@ -22,21 +22,8 @@ import { LoggerModule } from '../common/logger/logger.module';
       },
     }),
   ],
-  providers: [
-    AuthService,
-    PasswordService,
-    ValidationService,
-    AuthLoggerService,
-    JwtAuthGuard,
-  ],
+  providers: [AuthService, PasswordService, ValidationService, AuthLoggerService, JwtAuthGuard],
   controllers: [AuthController],
-  exports: [
-    AuthService,
-    JwtModule,
-    PasswordService,
-    ValidationService,
-    AuthLoggerService,
-    JwtAuthGuard,
-  ],
+  exports: [AuthService, JwtModule, PasswordService, ValidationService, AuthLoggerService, JwtAuthGuard],
 })
 export class AuthModule {}

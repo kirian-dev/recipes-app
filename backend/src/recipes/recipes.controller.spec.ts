@@ -93,10 +93,7 @@ describe('RecipesController', () => {
 
       const result = await controller.create(createRecipeDto, mockRequest);
 
-      expect(mockRecipesService.create).toHaveBeenCalledWith(
-        createRecipeDto,
-        'user-id',
-      );
+      expect(mockRecipesService.create).toHaveBeenCalledWith(createRecipeDto, 'user-id');
       expect(result).toEqual(expectedRecipe);
     });
 
@@ -112,9 +109,7 @@ describe('RecipesController', () => {
         user: { sub: '', id: '' },
       };
 
-      await expect(
-        controller.create(createRecipeDto, mockRequestWithoutUser),
-      ).rejects.toThrow(
+      await expect(controller.create(createRecipeDto, mockRequestWithoutUser)).rejects.toThrow(
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND,
       );
     });
@@ -129,9 +124,7 @@ describe('RecipesController', () => {
 
       const mockRequestWithoutUser = {} as AuthenticatedRequest;
 
-      await expect(
-        controller.create(createRecipeDto, mockRequestWithoutUser),
-      ).rejects.toThrow(
+      await expect(controller.create(createRecipeDto, mockRequestWithoutUser)).rejects.toThrow(
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND,
       );
     });
@@ -253,17 +246,9 @@ describe('RecipesController', () => {
 
       mockRecipesService.update.mockResolvedValue(expectedRecipe);
 
-      const result = await controller.update(
-        recipeId,
-        updateRecipeDto,
-        mockRequest,
-      );
+      const result = await controller.update(recipeId, updateRecipeDto, mockRequest);
 
-      expect(mockRecipesService.update).toHaveBeenCalledWith(
-        recipeId,
-        updateRecipeDto,
-        'user-id',
-      );
+      expect(mockRecipesService.update).toHaveBeenCalledWith(recipeId, updateRecipeDto, 'user-id');
       expect(result).toEqual(expectedRecipe);
     });
 
@@ -277,9 +262,7 @@ describe('RecipesController', () => {
         user: { sub: '', id: '' },
       };
 
-      await expect(
-        controller.update(recipeId, updateRecipeDto, mockRequestWithoutUser),
-      ).rejects.toThrow(
+      await expect(controller.update(recipeId, updateRecipeDto, mockRequestWithoutUser)).rejects.toThrow(
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND,
       );
     });
@@ -296,10 +279,7 @@ describe('RecipesController', () => {
 
       const result = await controller.remove(recipeId, mockRequest);
 
-      expect(mockRecipesService.remove).toHaveBeenCalledWith(
-        recipeId,
-        'user-id',
-      );
+      expect(mockRecipesService.remove).toHaveBeenCalledWith(recipeId, 'user-id');
       expect(result).toEqual(expectedResult);
     });
 
@@ -309,9 +289,7 @@ describe('RecipesController', () => {
         user: { sub: '', id: '' },
       };
 
-      await expect(
-        controller.remove(recipeId, mockRequestWithoutUser),
-      ).rejects.toThrow(
+      await expect(controller.remove(recipeId, mockRequestWithoutUser)).rejects.toThrow(
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND,
       );
     });
@@ -337,10 +315,7 @@ describe('RecipesController', () => {
 
       const result = await controller.toggleLike(recipeId, mockRequest);
 
-      expect(mockRecipesService.toggleLike).toHaveBeenCalledWith(
-        recipeId,
-        'user-id',
-      );
+      expect(mockRecipesService.toggleLike).toHaveBeenCalledWith(recipeId, 'user-id');
       expect(result).toEqual(expectedRecipe);
     });
 
@@ -350,9 +325,7 @@ describe('RecipesController', () => {
         user: { sub: '', id: '' },
       };
 
-      await expect(
-        controller.toggleLike(recipeId, mockRequestWithoutUser),
-      ).rejects.toThrow(
+      await expect(controller.toggleLike(recipeId, mockRequestWithoutUser)).rejects.toThrow(
         RECIPES_CONSTANTS.MESSAGES.VALIDATION.USER_ID_NOT_FOUND,
       );
     });

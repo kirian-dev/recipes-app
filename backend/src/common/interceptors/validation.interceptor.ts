@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, BadRequestException } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { plainToClass, ClassConstructor } from 'class-transformer';
 import { validate, ValidationError } from 'class-validator';
@@ -13,14 +7,9 @@ import { ParsedQs } from 'qs';
 
 @Injectable()
 export class ValidationInterceptor implements NestInterceptor {
-  constructor(
-    private readonly dtoClass: ClassConstructor<Record<string, unknown>>,
-  ) {}
+  constructor(private readonly dtoClass: ClassConstructor<Record<string, unknown>>) {}
 
-  async intercept(
-    context: ExecutionContext,
-    next: CallHandler,
-  ): Promise<Observable<any>> {
+  async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
     const request = context.switchToHttp().getRequest<Request>();
     const query = request.query as Record<string, any>;
 

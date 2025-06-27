@@ -3,8 +3,7 @@ export const AUTH_CONSTANTS = {
     MIN_LENGTH: 3,
     MAX_LENGTH: 50,
     PATTERN: /^[a-zA-Z0-9_-]+$/,
-    PATTERN_MESSAGE:
-      'Username can only contain letters, numbers, underscores and hyphens',
+    PATTERN_MESSAGE: 'Username can only contain letters, numbers, underscores and hyphens',
   },
   PASSWORD: {
     MIN_LENGTH: 6,
@@ -22,25 +21,13 @@ export const AUTH_CONSTANTS = {
     'admin123',
     'letmein',
   ] as string[],
-  WEAK_SEQUENCES: [
-    '123',
-    'abc',
-    'qwe',
-    'asd',
-    'zxc',
-    '789',
-    'def',
-    'ghi',
-    'jkl',
-    'mno',
-  ] as string[],
+  WEAK_SEQUENCES: ['123', 'abc', 'qwe', 'asd', 'zxc', '789', 'def', 'ghi', 'jkl', 'mno'] as string[],
   MESSAGES: {
     USERNAME: {
       EMPTY: 'Username cannot be empty',
       TOO_SHORT: 'Username must be at least 3 characters long',
       TOO_LONG: 'Username cannot exceed 50 characters',
-      INVALID_CHARS:
-        'Username can only contain letters, numbers, underscores and hyphens',
+      INVALID_CHARS: 'Username can only contain letters, numbers, underscores and hyphens',
     },
     PASSWORD: {
       EMPTY: 'Password cannot be empty',

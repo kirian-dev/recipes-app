@@ -58,12 +58,7 @@ export class AnalyticsLoggerService {
   /**
    * Logs analytics data retrieval
    */
-  logAnalyticsRetrieval(
-    action: string,
-    success: boolean,
-    error?: string,
-    metadata?: Record<string, unknown>,
-  ): void {
+  logAnalyticsRetrieval(action: string, success: boolean, error?: string, metadata?: Record<string, unknown>): void {
     const context: AnalyticsLogContext = {
       action: `analytics_${action}`,
       success,
